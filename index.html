@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0b1020">
+<title>스네이크 드래프트 | Arena Manager</title>
+<style>
+:root{--bg:#0b1020;--panel:#121a2d;--panel2:#18233a;--line:#263653;--text:#edf3ff;--muted:#91a2bd;--accent:#7c8cff;--good:#2ecc71;--bad:#ff657a;--gold:#f1c40f;--radius:16px}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 20% -10%,#202d50 0,transparent 35%),var(--bg);color:var(--text);font-family:Inter,Pretendard,"Noto Sans KR",system-ui,sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:1px solid var(--line);background:#202d49;color:var(--text);padding:10px 14px;border-radius:10px;font-weight:700}button:hover{filter:brightness(1.15)}button.primary{background:linear-gradient(135deg,#687cff,#8c65e8);border:0}button.danger{background:#492536;border-color:#743248}button.ghost{background:transparent}.wrap{max-width:1500px;margin:auto;padding:22px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:15px;margin-bottom:22px}.brand{display:flex;align-items:center;gap:12px}.logo{width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#697dff,#b06aff);display:grid;place-items:center;font-size:22px;font-weight:900}.brand h1{font-size:20px;margin:0}.brand small{color:var(--muted)}.actions{display:flex;gap:8px;flex-wrap:wrap}.tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}.tab{background:transparent;color:var(--muted)}.tab.active{background:#29375b;color:white;border-color:#6478d9}.panel{background:linear-gradient(180deg,rgba(22,32,54,.97),rgba(16,24,42,.97));border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin-bottom:16px;box-shadow:0 12px 32px #0002}.panel h2,.panel h3{margin:0 0 14px}.muted{color:var(--muted)}.small{font-size:12px}.grid{display:grid;gap:14px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:12px;color:var(--muted);font-weight:700}.field input,.field select,.field textarea,.toolbar input,.toolbar select{width:100%;background:#0d1527;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:10px;min-width:0}.field textarea{min-height:76px;resize:vertical}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.row>*{flex:1}.preset{display:flex;gap:9px;flex-wrap:wrap}.preset button{flex:1;min-width:180px}.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.section-title h2{margin:0}.statline{display:flex;justify-content:space-between;color:var(--muted);font-size:13px;margin-top:8px}.warning{color:#ff9b70;font-weight:800}.success{color:#68e5a0}.hidden{display:none!important}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.toolbar input{max-width:260px}.participant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}.person-card{position:relative;background:#101a2d;border:2px solid var(--tier,#95a5a6);border-radius:13px;padding:8px;cursor:pointer;min-width:0;transition:.15s}.person-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px #0005}.person-card.selected{opacity:.36;filter:grayscale(.7);cursor:not-allowed}.person-card img,.avatar-placeholder{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;background:linear-gradient(135deg,#263653,#141e33);display:grid;place-items:center;color:#9eafd0;font-size:34px}.person-card .name{font-weight:800;margin:8px 0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.badge{display:inline-block;border-radius:6px;padding:3px 7px;font-size:11px;font-weight:900;color:#08101d;background:var(--tier,#95a5a6)}.tier-heading{display:flex;align-items:center;gap:8px;margin:16px 0 9px;font-weight:900}.team-strip{display:grid;grid-template-columns:repeat(6,minmax(170px,1fr));gap:12px;overflow-x:auto;padding-bottom:8px}.team{background:#0e1729;border:1px solid var(--line);border-radius:14px;padding:12px;min-width:170px}.team.current{border:2px solid var(--accent);box-shadow:0 0 0 3px #7c8cff22}.team-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.coach{display:flex;gap:8px;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line);cursor:pointer}.coach img,.coach .avatar-placeholder{width:42px;height:42px;aspect-ratio:1;border-radius:9px;font-size:18px}.slot{border:1px dashed #34445f;border-radius:9px;padding:7px;margin:6px 0;min-height:58px;display:flex;gap:8px;align-items:center;cursor:pointer}.slot img{width:42px;height:42px;object-fit:cover;border-radius:7px}.slot .slotname{font-size:12px;font-weight:800}.slot.empty{color:#71819e;font-size:12px;justify-content:center}.roundbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.progress{height:8px;background:#27344d;border-radius:99px;overflow:hidden;margin:10px 0}.progress>div{height:100%;background:linear-gradient(90deg,#6b7cff,#bd73ff);width:0}.pos-chip{font-size:10px;color:#b9c8e4}.modal-back{position:fixed;inset:0;background:#030713cc;z-index:20;display:none;align-items:center;justify-content:center;padding:14px}.modal-back.show{display:flex}.modal{width:min(920px,100%);max-height:94vh;overflow:auto;background:#121c30;border:1px solid #3a4d70;border-radius:18px;padding:20px;box-shadow:0 25px 80px #0009}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:-20px;background:#121c30;padding:5px 0 12px;z-index:2}.modal-head h2{margin:0}.modal-grid{display:grid;grid-template-columns:180px 1fr;gap:18px}.photo-box img,.photo-box .avatar-placeholder{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}.subhead{font-size:13px;color:#aebde0;border-bottom:1px solid var(--line);padding:12px 0 7px;margin:12px 0}.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px}.stat-total{font-size:19px;font-weight:900}.tier-X{--tier:#9b59b6}.tier-S{--tier:#e74c3c}.tier-A{--tier:#f1c40f}.tier-B{--tier:#2ecc71}.tier-C{--tier:#3498db}.tier-D{--tier:#95a5a6}.result-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}.score{font-size:28px;font-weight:900;color:#ffd66b}.analysis-list{padding-left:18px;color:#c5d2e8;line-height:1.7}.footer-note{color:#71819e;font-size:11px;text-align:center;padding:20px}.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#263858;border:1px solid #6177a8;padding:11px 17px;border-radius:12px;z-index:50;display:none}.empty-note{padding:22px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+@media(max-width:850px){.grid.four{grid-template-columns:repeat(2,minmax(0,1fr))}.team-strip{grid-template-columns:repeat(6,180px)}.modal-grid{grid-template-columns:1fr}.photo-box{max-width:150px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.wrap{padding:12px}.topbar{align-items:flex-start}.brand h1{font-size:16px}.actions button{padding:8px;font-size:12px}.grid.two,.grid.three,.grid.four{grid-template-columns:1fr 1fr}.participant-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:13px}.preset button{min-width:100%;}.modal{padding:14px}.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.toolbar input{max-width:none;flex:1}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="topbar">
+ <div class="brand"><div class="logo">A</div><div><h1>ARENA <span style="color:#91a2ff">DRAFT</span></h1><small>Snake Draft · Team Builder</small></div></div>
+ <div class="actions"><button class="ghost" id="exportBtn">JSON 내보내기</button><button class="ghost" id="importBtn">JSON 불러오기</button><input id="importFile" type="file" accept=".json,application/json" hidden><button class="danger" id="resetDataBtn">전체 초기화</button></div>
+</header>
+<nav class="tabs">
+ <button class="tab active" data-tab="setup">① 설정</button><button class="tab" data-tab="roster">② 선수 등록</button><button class="tab" data-tab="draft">③ 드래프트</button><button class="tab" data-tab="results">④ 팀 분석</button>
+</nav>
+<main>
+<section id="setup" class="view">
+ <div class="panel">
+  <div class="section-title"><h2>드래프트 규칙 설정</h2><span class="muted small">원하는 규모로 자유롭게 구성</span></div>
+  <div class="preset">
+   <button data-preset="default">[기본] 6팀 · 감독 6 · 참가자 36 · 5포지션</button>
+   <button data-preset="five">[5인] 5팀 · 감독 5 · 참가자 25 · 5포지션</button>
+   <button data-preset="seven">[7포지션] 4팀 · 감독 4 · 참가자 28 · 7포지션</button>
+  </div>
+  <div class="grid four" style="margin-top:16px">
+   <div class="field"><label>팀 수 / 감독 수</label><input type="number" id="teamCount" min="2" max="12" value="6"></div>
+   <div class="field"><label>팀당 참가자 수</label><input type="number" id="perTeam" min="1" max="12" value="6"></div>
+   <div class="field"><label>총 참가자 수</label><input type="number" id="totalPlayers" min="2" max="144" value="36"></div>
+   <div class="field"><label>팀 이름 접두어</label><input id="teamPrefix" value="TEAM"></div>
+  </div>
+  <p class="muted small">총 참가자 수는 팀 수 × 팀당 참가자 수로 자동 동기화돼. 참가자 명단이 부족하면 드래프트를 시작할 수 없어.</p>
+  <div class="row"><button class="primary" id="applyConfig">설정 적용</button><span id="configSummary" class="muted small"></span></div>
+ </div>
+ <div class="panel">
+  <div class="section-title"><h2>포지션 체계</h2><span class="muted small">이름 추가·수정·삭제 가능</span></div>
+  <div class="preset"><button data-position="lol">롤 라인 버전</button><button data-position="rpg">RPG 직업 버전 7종</button></div>
+  <div id="positionEditor" class="row" style="margin-top:14px"></div>
+  <div class="row"><input id="newPosition" placeholder="새 포지션 이름"><button id="addPosition">포지션 추가</button></div>
+ </div>
+ <div class="panel">
+  <div class="section-title"><h2>감독 등록</h2><button class="primary" id="addCoach">+ 감독 추가</button></div>
+  <div id="coachList" class="participant-grid"></div>
+  <p class="muted small">팀 수와 감독 수는 동일하게 운영돼. 감독 카드를 눌러 프로필과 이미지를 편집할 수 있어.</p>
+ </div>
+ <div class="row"><button class="primary" id="goRoster">선수 등록으로 →</button></div>
+</section>
+<section id="roster" class="view hidden">
+ <div class="panel">
+  <div class="section-title"><h2>참가자 명단</h2><button class="primary" id="addPlayer">+ 참가자 등록</button></div>
+  <div class="toolbar"><input id="playerSearch" placeholder="이름 검색"><select id="tierFilter"><option value="">전체 티어</option><option>X>X 티어</option><option>S>S 티어</option><option>A>A 티어</option><option>B>B 티어</option><option>C>C 티어</option><option>D>D 티어</option></select><span id="playerCount" class="muted small"></span></div>
+  <div id="tierRoster"></div>
+ </div>
+ <div class="row"><button id="backSetup">← 설정으로</button><button class="primary" id="startDraft">드래프트 시작 →</button></div>
+</section>
+<section id="draft" class="view hidden">
+ <div class="panel">
+  <div class="roundbar"><div><div class="muted small">CURRENT PICK</div><h2 id="turnTitle">드래프트 대기 중</h2><span id="turnDetail" class="muted"></span></div><div><strong id="pickCounter">0 / 0</strong><div class="muted small">전체 지명 진행률</div></div></div>
+  <div class="progress"><div id="progressFill"></div></div>
+  <div class="row"><button id="undoPick">↶ 직전 지명 취소</button><button id="finishEarly" class="ghost">드래프트 종료</button></div>
+ </div>
+ <div class="panel"><div class="section-title"><h2>팀 빌딩 현황</h2><span class="muted small">현재 지명 팀은 강조 표시돼</span></div><div id="teamBoard" class="team-strip"></div></div>
+ <div class="panel"><div class="section-title"><h2>지명 가능한 참가자</h2><span class="muted small">카드를 누르면 현재 팀에 지명</span></div><div id="draftPool"></div></div>
+</section>
+<section id="results" class="view hidden">
+ <div class="panel"><div class="section-title"><h2>드래프트 결과</h2><button class="primary" id="restartDraft">처음으로 돌아가기 / 재시작</button></div><div id="resultTeams" class="result-grid"></div></div>
+</section>
+</main>
+<div class="footer-note">ARENA DRAFT · 데이터는 이 브라우저에 저장돼. 이미지 데이터가 많으면 JSON 파일 크기가 커질 수 있어.</div>
+</div>
+<div class="modal-back" id="modalBack"><div class="modal"><div class="modal-head"><h2 id="modalTitle">프로필</h2><button id="closeModal">닫기 ✕</button></div><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+(() => {
+'use strict';
+const $=id=>document.getElementById(id);
+const TIERS=['X','S','A','B','C','D'];
+const TIER_COLORS={X:'#9b59b6',S:'#e74c3c',A:'#f1c40f',B:'#2ecc71',C:'#3498db',D:'#95a5a6'};
+const ELEMENTS=['해','달','물','얼음','풀','비행','불','바위','땅','드래곤','격투','귀신','강철','독','벌레','전기','악','선','정신','보통'];
+const RACES=['펭귄','고대공룡','인간','혈귀','드래곤','여우','청룡','하프','기타'];
+const CORE_PRESETS=[
+ {name:'습득',race:'인간',desc:'경험치·기술 연마 속도 증가 및 숨겨진 잠재능력 개방 확률 증가.'},
+ {name:'재생력',race:'혈귀',desc:'상처 회복 및 신체 부위 복구 속도. 목을 베이지 않는 한 전투 지속력 향상.'},
+ {name:'피부 경도',race:'드래곤',desc:'일반 방어와 별개로 최종 물리 피해 감소 및 일격 경직 시간 감소.'},
+ {name:'추위 적응력',race:'펭귄',desc:"얼음 속성 위력 증가, '눈' 필드 시 매 턴 HP 회복. 비행 속성 기술 사용 시 수치에 비례해 스피드 하락."},
+ {name:'명석한 두뇌',race:'여우',desc:'소모성 장치 긍정 효과 확률 상승 및 적 디버프·함정 기믹 무효화/역이용 확률 증가.'},
+ {name:'청룡의 비늘',race:'청룡/하프',desc:'일반 특방과 별개로 최종 특수·마법 피해 감소, 일격 경직 감소 및 상태이상 확률 감소.'}
+];
+const BASE_STATS=['HP','공격','방어','특공','특방','스피드','전략'];
+const DEFAULT_POS=['탑','정글','미드','원딜','서폿'];
+const defaultState=()=>({
+ config:{teams:6,perTeam:6,total:36,prefix:'TEAM'},
+ positions:[...DEFAULT_POS],
+ coaches:Array.from({length:6},(_,i)=>blankPerson('감독 '+(i+1),'A','감독')),
+ players:[],draft:{started:false,complete:false,picks:[],turn:0,order:[]},coreStats:[...CORE_PRESETS]
+});
+function blankPerson(name,tier='C',kind='player'){return {id:uid(),kind,name,tier,image:'',position:'',element:'보통',race:'인간',role:'',passive:'',trait:'',hiddenTrait:'',awakeningCondition:'',awakeningEffect:'',awakeningPenalty:'',signature:'',coreName:'습득',coreValue:0,stats:{HP:100,공격:100,방어:100,특공:100,특방:100,스피드:100,전략:100},notes:''};}
+function uid(){return 'p'+Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+let state=load();
+function load(){try{const x=JSON.parse(localStorage.getItem('arenaDraftV1'));if(x&&x.config&&Array.isArray(x.players))return x;}catch(e){}return defaultState();}
+function save(){try{localStorage.setItem('arenaDraftV1',JSON.stringify(state));}catch(e){toast('저장 공간이 부족해. 이미지 크기를 줄여줘.');}}
+function toast(msg){const t=$('toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.style.display='none',2300);}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function personById(id){return [...state.coaches,...state.players].find(p=>p.id===id)}
+function activePicks(){return state.draft.picks||[]}
+function draftedIds(){return new Set(activePicks().map(p=>p.playerId))}
+function switchTab(name){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('hidden',v.id!==name));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));if(name==='draft')renderDraft();if(name==='results')renderResults();}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+function applyPreset(kind){
+ const p=kind==='five'?{teams:5,per:5,positions:5}:kind==='seven'?{teams:4,per:7,positions:7}:{teams:6,per:6,positions:5};
+ $('teamCount').value=p.teams;$('perTeam').value=p.per;$('totalPlayers').value=p.teams*p.per;
+ if(kind==='seven')state.positions=['탱커','전사','마법사','암살자','원거리딜러','서포터','힐러'];else state.positions=[...DEFAULT_POS];
+ syncConfig(false);renderPositionEditor();toast('프리셋을 적용했어.');
+}
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>applyPreset(b.dataset.preset));
+$('teamCount').oninput=()=>{$('totalPlayers').value=Math.max(0,(+$('teamCount').value||0)*(+$('perTeam').value||0))};
+$('perTeam').oninput=()=>$('totalPlayers').value=Math.max(0,(+$('teamCount').value||0)*(+$('perTeam').value||0));
+function syncConfig(show=true){
+ const teams=Math.max(2,Math.min(12,parseInt($('teamCount').value)||6)),per=Math.max(1,Math.min(12,parseInt($('perTeam').value)||6));
+ state.config={teams,per,total:teams*per,prefix:$('teamPrefix').value.trim()||'TEAM'};
+ $('teamCount').value=teams;$('perTeam').value=per;$('totalPlayers').value=teams*per;
+ $('configSummary').textContent=`${teams}팀 × ${per}명 = 참가자 ${teams*per}명 / 감독 ${teams}명`;
+ while(state.coaches.length<teams)state.coaches.push(blankPerson('감독 '+(state.coaches.length+1),'A','감독'));
+ state.coaches=state.coaches.slice(0,teams);
+ if(show){state.draft={started:false,complete:false,picks:[],turn:0,order:[]};save();renderCoaches();toast('설정을 적용했어.');}
+}
+$('applyConfig').onclick=()=>syncConfig(true);
+function renderPositionEditor(){
+ $('positionEditor').innerHTML=state.positions.map((p,i)=>`<div class="row" style="flex:1 1 180px"><input aria-label="포지션" data-pos="${i}" value="${esc(p)}"><button class="danger" data-delpos="${i}">삭제</button></div>`).join('');
+ document.querySelectorAll('[data-pos]').forEach(el=>el.onchange=()=>{state.positions[+el.dataset.pos]=el.value.trim()||'포지션';save();});
+ document.querySelectorAll('[data-delpos]').forEach(b=>b.onclick=()=>{if(state.positions.length<=1)return toast('포지션은 최소 1개 필요해.');state.positions.splice(+b.dataset.delpos,1);save();renderPositionEditor();});
+}
+$('addPosition').onclick=()=>{const v=$('newPosition').value.trim();if(!v)return;state.positions.push(v);$('newPosition').value='';save();renderPositionEditor();};
+document.querySelectorAll('[data-position]').forEach(b=>b.onclick=()=>{state.positions=b.dataset.position==='rpg'?['탱커','전사','마법사','암살자','원거리딜러','서포터','힐러']:[...DEFAULT_POS];save();renderPositionEditor();});
+function avatar(p,cls=''){return p.image?`<img class="${cls}" src="${p.image}" alt="">`:`<div class="avatar-placeholder ${cls}">✦</div>`;}
+function renderCoaches(){$('coachList').innerHTML=state.coaches.map((p,i)=>`<div class="person-card tier-${p.tier}" data-coach="${p.id}">${avatar(p)}<div class="name">${esc(p.name)}</div><span class="badge">${p.tier}</span><div class="small muted">감독 ${i+1} · 프로필 편집</div></div>`).join('')||'<div class="empty-note">감독이 없어.</div>';document.querySelectorAll('[data-coach]').forEach(el=>el.onclick=()=>openProfile(el.dataset.coach));}
+function renderRoster(){
+ const query=$('playerSearch').value.toLowerCase(),filter=$('tierFilter').value;
+ const pool=state.players.filter(p=>(!filter||p.tier===filter)&&p.name.toLowerCase().includes(query));
+ $('playerCount').textContent=`${state.players.length}명 등록 / ${state.config.total}명 필요`;
+ $('tierRoster').innerHTML=TIERS.map(t=>{const list=pool.filter(p=>p.tier===t);return list.length?`<div class="tier-heading"><span class="badge" style="--tier:${TIER_COLORS[t]}">${t} TIER</span><span class="muted small">${list.length}명</span></div><div class="participant-grid">${list.map(p=>`<div class="person-card tier-${p.tier}" data-player="${p.id}">${avatar(p)}<div class="name">${esc(p.name)}</div><span class="badge">${p.tier}</span><div class="small muted">${esc(p.position||'포지션 미지정')} · ${esc(p.element)}</div></div>`).join('')}</div>`:''}).join('')||'<div class="empty-note">표시할 참가자가 없어. 참가자를 등록해 줘.</div>';
+ document.querySelectorAll('[data-player]').forEach(el=>el.onclick=()=>openProfile(el.dataset.player));
+}
+$('playerSearch').oninput=renderRoster;$('tierFilter').onchange=renderRoster;
+$('addCoach').onclick=()=>{if(state.coaches.length>=12)return toast('감독은 최대 12명까지 등록할 수 있어.');const p=blankPerson('새 감독','A','감독');state.coaches.push(p);state.config.teams=state.coaches.length;save();renderCoaches();openProfile(p.id);};
+$('addPlayer').onclick=()=>{const p=blankPerson('새 참가자','C');state.players.push(p);save();renderRoster();openProfile(p.id);};
+function openProfile(id){
+ const p=personById(id);if(!p)return;
+ $('modalTitle').textContent=(p.kind==='감독'?'감독':'참가자')+' 프로필';
+ const statFields=BASE_STATS.map(s=>`<div class="field"><label>${s}</label><input type="number" min="0" max="999" data-stat="${s}" value="${Number(p.stats?.[s]??0)}"></div>`).join('');
+ const coreOptions=state.coreStats.map(c=>`<option value="${esc(c.name)}" ${p.coreName===c.name?'selected':''}>${esc(c.name)}</option>`).join('');
+ $('modalBody').innerHTML=`
+ <div class="modal-grid"><div class="photo-box">${avatar(p)}<div class="field" style="margin-top:8px"><label>정사각형 이미지 업로드</label><input type="file" id="profileImage" accept="image/*"></div><button class="ghost" id="removeImage" style="width:100%;margin-top:6px">이미지 제거</button></div>
+ <div><div class="grid two">
+ <div class="field"><label>이름</label><input id="pName" value="${esc(p.name)}"></div>
+ <div class="field"><label>티어</label><select id="pTier">${TIERS.map(t=>`<option ${p.tier===t?'selected':''}>${t}</option>`).join('')}</select></div>
+ <div class="field"><label>속성</label><select id="pElement">${ELEMENTS.map(e=>`<option ${p.element===e?'selected':''}>${e}</option>`).join('')}</select></div>
+ <div class="field"><label>종족</label><input id="pRace" list="raceList" value="${esc(p.race)}"><datalist id="raceList">${RACES.map(r=>`<option value="${r}">`).join('')}</datalist></div>
+ <div class="field"><label>포지션</label><select id="pPosition"><option value="">미지정</option>${state.positions.map(x=>`<option ${p.position===x?'selected':''}>${esc(x)}</option>`).join('')}</select></div>
+ <div class="field"><label>역할군</label><input id="pRole" value="${esc(p.role)}" placeholder="만능형, 특수 스위퍼, 물리 탱커 등"></div></div>
+ <div class="subhead">전투 기믹</div><div class="grid two">
+ <div class="field"><label>패시브</label><textarea id="pPassive">${esc(p.passive)}</textarea></div><div class="field"><label>특성</label><textarea id="pTrait">${esc(p.trait)}</textarea></div>
+ <div class="field"><label>숨겨진 특성</label><textarea id="pHidden">${esc(p.hiddenTrait)}</textarea></div><div class="field"><label>전용 기술</label><textarea id="pSignature">${esc(p.signature)}</textarea></div>
+ <div class="field"><label>각성 발동 조건</label><textarea id="pAwakeCond">${esc(p.awakeningCondition)}</textarea></div><div class="field"><label>각성 효과</label><textarea id="pAwakeEffect">${esc(p.awakeningEffect)}</textarea></div>
+ <div class="field"><label>각성 페널티</label><textarea id="pAwakePenalty">${esc(p.awakeningPenalty)}</textarea></div><div class="field"><label>기타 메모</label><textarea id="pNotes">${esc(p.notes)}</textarea></div></div></div></div>
+ <div class="subhead">8대 스탯</div><div class="stats-grid">${statFields}<div class="field"><label>8번째 핵심 스탯</label><select id="pCore">${coreOptions}</select></div><div class="field"><label id="coreValueLabel">핵심 스탯 수치 (0~100)</label><input id="pCoreValue" type="number" min="0" max="100" value="${Number(p.coreValue)||0}"></div></div>
+ <div class="statline"><span>최종 개체값 총합</span><strong class="stat-total" id="statTotal">0 / 2333</strong></div><div id="statWarning" class="small"></div>
+ <div class="row" style="margin-top:16px"><button class="primary" id="saveProfile">저장</button>${p.kind!=='감독'?'<button class="danger" id="deleteProfile">참가자 삭제</button>':''}</div>
+ <div class="subhead">8번째 핵심 스탯 관리</div><div class="row"><input id="newCoreName" placeholder="새 스탯 명칭"><input id="newCoreDesc" placeholder="설명"><button id="addCore">추가</button></div><div class="small muted" style="margin-top:8px">${state.coreStats.map(c=>`${esc(c.name)} (${esc(c.race)}): ${esc(c.desc)}`).join('<br>')}</div>`;
+ const calc=()=>{let sum=BASE_STATS.reduce((a,s)=>a+(Number($(`[data-stat="${s}"]`).value)||0),0)+(Number($('pCoreValue').value)||0);$('statTotal').textContent=sum.toLocaleString()+' / 2333';$('statTotal').style.color=sum>2333?'#ff657a':'#edf3ff';$('statWarning').innerHTML=sum>2333?'<span class="warning">⚠ 총합이 2333을 초과했어. 수치를 조정해 줘.</span>':'<span class="success">✓ 총합 제한 이내</span>';};
+ document.querySelectorAll('[data-stat]').forEach(el=>el.oninput=calc);$('pCoreValue').oninput=()=>{if(+$('pCoreValue').value>100)$('pCoreValue').value=100;if(+$('pCoreValue').value<0)$('pCoreValue').value=0;calc();};calc();
+ $('pCore').onchange=()=>{const c=state.coreStats.find(x=>x.name===$('pCore').value);$('coreValueLabel').textContent=(c?.name||'핵심 스탯')+' 수치 (0~100)';};
+ $('profileImage').onchange=async e=>{const f=e.target.files[0];if(!f)return;if(!f.type.startsWith('image/'))return toast('이미지 파일을 선택해 줘.');try{p.image=await compressImage(f);openProfile(id);}catch(err){toast('이미지를 읽지 못했어.');}};
+ $('removeImage').onclick=()=>{p.image='';openProfile(id);};
+ $('addCore').onclick=()=>{const n=$('newCoreName').value.trim(),d=$('newCoreDesc').value.trim();if(!n)return toast('스탯 이름을 입력해 줘.');if(state.coreStats.some(c=>c.name===n))return toast('이미 존재하는 이름이야.');state.coreStats.push({name:n,race:'커스텀',desc:d});save();openProfile(id);};
+ $('saveProfile').onclick=()=>{
+  const sum=BASE_STATS.reduce((a,s)=>a+(Number($(`[data-stat="${s}"]`).value)||0),0)+Number($('pCoreValue').value||0);
+  if(sum>2333){toast('총합 2333 초과! 수치를 조정해 줘.');return;}
+  Object.assign(p,{name:$('pName').value.trim()||'이름 없음',tier:$('pTier').value,element:$('pElement').value,race:$('pRace').value.trim()||'기타',position:$('pPosition').value,role:$('pRole').value,passive:$('pPassive').value,trait:$('pTrait').value,hiddenTrait:$('pHidden').value,signature:$('pSignature').value,awakeningCondition:$('pAwakeCond').value,awakeningEffect:$('pAwakeEffect').value,awakeningPenalty:$('pAwakePenalty').value,notes:$('pNotes').value,coreName:$('pCore').value,coreValue:Math.min(100,Math.max(0,Number($('pCoreValue').value)||0)),stats:Object.fromEntries(BASE_STATS.map(s=>[s,Number($(`[data-stat="${s}"]`).value)||0]))});
+  save();closeModal();renderAll();toast('프로필을 저장했어.');
+ };
+ const del=$('deleteProfile');if(del)del.onclick=()=>{if(!confirm('이 참가자를 삭제할까?'))return;state.players=state.players.filter(x=>x.id!==id);state.draft.picks=state.draft.picks.filter(x=>x.playerId!==id);save();closeModal();renderAll();};
+ $('modalBack').classList.add('show');
+}
+function compressImage(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onerror=reject;r.onload=()=>{const im=new Image();im.onerror=reject;im.onload=()=>{const c=document.createElement('canvas'),size=640;c.width=size;c.height=size;const ctx=c.getContext('2d'),scale=Math.max(size/im.width,size/im.height),w=im.width*scale,h=im.height*scale;ctx.drawImage(im,(size-w)/2,(size-h)/2,w,h);resolve(c.toDataURL('image/jpeg',.82));};im.src=r.result;};r.readAsDataURL(file);});}
+function closeModal(){$('modalBack').classList.remove('show');}
+$('closeModal').onclick=closeModal;$('modalBack').onclick=e=>{if(e.target===$('modalBack'))closeModal();};
+function renderAll(){renderCoaches();renderRoster();renderPositionEditor();syncInputs();}
+function syncInputs(){$('teamCount').value=state.config.teams;$('perTeam').value=state.config.per;$('totalPlayers').value=state.config.total;$('teamPrefix').value=state.config.prefix;$('configSummary').textContent=`${state.config.teams}팀 × ${state.config.per}명 = 참가자 ${state.config.total}명 / 감독 ${state.config.teams}명`;}
+$('goRoster').onclick=()=>switchTab('roster');$('backSetup').onclick=()=>switchTab('setup');
+function startDraft(){
+ syncConfig(false);
+ if(state.coaches.length!==state.config.teams)return toast('팀 수만큼 감독을 등록해 줘.');
+ if(state.players.length<state.config.total)return toast(`참가자가 부족해. ${state.config.total}명 중 ${state.players.length}명 등록됐어.`);
+ if(state.positions.length<state.config.per)return toast(`팀원 ${state.config.per}명에 맞게 포지션을 ${state.config.per}개 이상 준비해 줘.`);
+ state.draft={started:true,complete:false,picks:[],turn:0,order:[]};
+ const n=state.config.teams;
+ for(let r=0;r<state.config.per;r++){const indexes=Array.from({length:n},(_,i)=>i);if(r%2===1)indexes.reverse();indexes.forEach(team=>state.draft.order.push({round:r+1,team}));}
+ save();switchTab('draft');renderDraft();
+}
+$('startDraft').onclick=startDraft;
+function currentPick(){return state.draft.order[state.draft.turn]}
+function renderDraft(){
+ if(!state.draft.started){$('turnTitle').textContent='드래프트를 시작해 줘';return;}
+ const d=state.draft,cur=currentPick(),done=d.turn>=d.order.length;
+ if(done){d.complete=true;save();$('turnTitle').textContent='드래프트 완료!';$('turnDetail').textContent='모든 참가자 지명이 끝났어.';$('pickCounter').textContent=d.order.length+' / '+d.order.length;$('progressFill').style.width='100%';$('draftPool').innerHTML='<div class="empty-note">지명이 모두 끝났어. 팀 분석 탭에서 결과를 확인해 줘.</div>';renderTeamBoard();return;}
+ $('turnTitle').textContent=`${state.config.prefix} ${cur.team+1} 지명 차례`;
+ $('turnDetail').textContent=`${cur.round}라운드 · ${cur.team+1}번 팀 · ${cur.round%2===1?'정방향':'역방향'}`;
+ $('pickCounter').textContent=`${d.turn} / ${d.order.length}`;$('progressFill').style.width=(d.turn/d.order.length*100)+'%';
+ renderTeamBoard();
+ const used=draftedIds(),pool=state.players.filter(p=>!used.has(p.id));
+ $('draftPool').innerHTML=TIERS.map(t=>{const arr=pool.filter(p=>p.tier===t);return arr.length?`<div class="tier-heading"><span class="badge" style="--tier:${TIER_COLORS[t]}">${t} TIER</span><span class="muted small">${arr.length}명</span></div><div class="participant-grid">${arr.map(p=>`<div class="person-card tier-${p.tier}" data-pick="${p.id}">${avatar(p)}<div class="name">${esc(p.name)}</div><span class="badge">${p.tier}</span><div class="small muted">${esc(p.position||'포지션 미지정')} · ${esc(p.element)}</div></div>`).join('')}</div>`:''}).join('')||'<div class="empty-note">남은 참가자가 없어.</div>';
+ document.querySelectorAll('[data-pick]').forEach(el=>el.onclick=()=>makePick(el.dataset.pick));
+}
+function renderTeamBoard(){
+ const d=state.draft,cur=currentPick();
+ $('teamBoard').innerHTML=Array.from({length:state.config.teams},(_,i)=>{
+  const coach=state.coaches[i],members=activePicks().filter(x=>x.team===i).map(x=>personById(x.playerId));
+  return `<div class="team ${cur&&cur.team===i?'current':''}"><div class="team-head"><strong>${esc(state.config.prefix)} ${i+1}</strong><span class="muted small">${members.length}/${state.config.per}</span></div><div class="coach" data-open="${coach?.id||''}">${coach?avatar(coach):''}<div><b>${esc(coach?.name||'감독 미등록')}</b><div class="small muted">감독 · ${coach?.tier||'-'} 티어</div></div></div>${Array.from({length:state.config.per},(_,j)=>{const p=members[j];return p?`<div class="slot" data-open="${p.id}">${avatar(p)}<div><div class="slotname">${esc(p.name)}</div><div class="pos-chip">${esc(p.position||state.positions[j]||'포지션 미지정')} · ${p.tier}티어</div></div></div>`:`<div class="slot empty">${esc(state.positions[j]||'포지션 '+(j+1))} · 미지명</div>`}).join('')}</div>`;
+ }).join('');
+ document.querySelectorAll('[data-open]').forEach(el=>el.onclick=()=>el.dataset.open&&openProfile(el.dataset.open));
+}
+function makePick(id){const cur=currentPick(),p=state.players.find(x=>x.id===id);if(!cur||!p||draftedIds().has(id))return;const teamPicks=activePicks().filter(x=>x.team===cur.team).length;state.draft.picks.push({playerId:id,team:cur.team,round:cur.round,position:state.positions[teamPicks]||''});state.draft.turn++;if(state.draft.turn>=state.draft.order.length)state.draft.complete=true;save();renderDraft();}
+$('undoPick').onclick=()=>{if(!state.draft.picks.length)return toast('취소할 지명이 없어.');state.draft.picks.pop();state.draft.turn=Math.max(0,state.draft.turn-1);state.draft.complete=false;save();renderDraft();};
+$('finishEarly').onclick=()=>{if(!confirm('남은 지명을 건너뛰고 현재 팀 구성으로 결과를 볼까?'))return;state.draft.complete=true;save();switchTab('results');};
+function teamAnalysis(teamIndex){
+ const coach=state.coaches[teamIndex],members=activePicks().filter(x=>x.team===teamIndex).map(x=>personById(x.playerId)).filter(Boolean),all=[coach,...members].filter(Boolean);
+ const tierScore={X:5,S:4.5,A:4,B:3,C:2,D:1},avg=members.length?members.reduce((s,p)=>s+(tierScore[p.tier]||2),0)/members.length:0;
+ const sums=Object.fromEntries(BASE_STATS.map(k=>[k,members.reduce((s,p)=>s+(Number(p.stats?.[k])||0),0)]));
+ const core=members.reduce((s,p)=>s+(Number(p.coreValue)||0),0);
+ const roles=members.map(p=>p.role).join(' ').toLowerCase(),roleText=members.map(p=>p.role).filter(Boolean).join(' ');
+ const tank=/탱|방어|수호|탱커/.test(roleText),support=/서폿|서포터|힐|지원|회복/.test(roleText),physical=sums.공격,magical=sums.특공;
+ const elements=members.map(p=>p.element),unique=[...new Set(elements)],duplicates=elements.length-unique.length;
+ const combos=[['물','얼음'],['해','불'],['선','악'],['풀','땅'],['전기','강철'],['달','귀신']];
+ const synergy=combos.filter(c=>c.every(e=>unique.includes(e))).map(c=>c.join('+'));
+ const weak=unique.length<=2?'속성 선택지가 적어 다양한 적 상성에 취약할 수 있어.':duplicates>members.length/2?'특정 속성 중복이 많아 상성 대응이 제한될 수 있어.':'속성이 비교적 분산돼 상성 대응력이 양호해.';
+ const balance=sums.전략+core/Math.max(1,members.length);
+ let score=Math.min(5,Math.max(0,avg*.62+(tank?0.35:0)+(support?0.35:0)+(unique.length/Math.max(1,members.length))*.55+(balance/Math.max(1,members.length)>100?0.35:0)));
+ score=Math.round(score*10)/10;
+ const strengths=[];if(avg>=4)strengths.push('상위 티어 비중이 높아 핵심 캐리 자원이 탄탄해.');else if(avg<2.5)strengths.push('성장 여지가 큰 로스터로 운영·육성 전략이 중요해.');else strengths.push('티어 분포가 중간권 중심으로 안정적인 편이야.');
+ if(tank)strengths.push('전방을 맡을 수 있는 탱킹 역할이 확인돼.');else strengths.push('전방 탱킹 역할이 명확하지 않아 보호 전략이 필요해.');
+ if(support)strengths.push('지원·회복 역할이 있어 교전 지속력에 도움이 돼.');else strengths.push('지원 역할이 부족할 수 있어 유지력에 주의해.');
+ if(synergy.length)strengths.push('속성 시너지 조합: '+synergy.join(', ')+'.');
+ return {coach,members,score,sums,core,unique,duplicates,synergy,weak,strengths,physical,magical,avg};
+}
+function renderResults(){
+ if(!state.draft.started){$('resultTeams').innerHTML='<div class="empty-note">먼저 드래프트를 진행해 줘.</div>';return;}
+ $('resultTeams').innerHTML=Array.from({length:state.config.teams},(_,i)=>{
+  const a=teamAnalysis(i),members=a.members;
+  return `<article class="panel"><div class="section-title"><h3>${esc(state.config.prefix)} ${i+1}</h3><span class="score">★ ${a.score.toFixed(1)}<small style="font-size:13px;color:#9aaac4"> / 5.0</small></span></div><div class="coach">${a.coach?avatar(a.coach):''}<div><b>${esc(a.coach?.name||'감독 미등록')}</b><div class="small muted">감독</div></div></div><div class="participant-grid">${members.map(p=>`<div class="person-card tier-${p.tier}" data-open="${p.id}">${avatar(p)}<div class="name">${esc(p.name)}</div><span class="badge">${p.tier}</span><div class="small muted">${esc(p.position||'포지션 미지정')} · ${esc(p.element)}</div></div>`).join('')}</div><h4 class="subhead">강점 및 약점 분석</h4><ul class="analysis-list">${a.strengths.map(x=>`<li>${esc(x)}</li>`).join('')}<li>${esc(a.weak)}</li><li>물리 공격 ${a.physical.toLocaleString()} · 특수 공격 ${a.magical.toLocaleString()} (${a.physical>=a.magical?'물리 중심':'특수 중심'})</li><li>전략 합계 ${a.sums.전략.toLocaleString()} · 핵심 스탯 합계 ${a.core.toLocaleString()}</li><li>속성: ${a.unique.map(esc).join(', ')||'미지정'} / 중복 ${a.duplicates}명</li></ul><div class="small muted">※ 평점은 티어·역할·속성 다양성·전략 수치를 기반으로 한 참고용 자동 지표야.</div></article>`;
+ }).join('');
+ document.querySelectorAll('[data-open]').forEach(el=>el.onclick=()=>openProfile(el.dataset.open));
+}
+$('restartDraft').onclick=()=>{if(!confirm('현재 드래프트 결과를 초기화하고 설정 화면으로 돌아갈까?'))return;state.draft={started:false,complete:false,picks:[],turn:0,order:[]};save();switchTab('setup');toast('새 드래프트를 준비할 수 있어.');};
+$('exportBtn').onclick=()=>{const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='arena-draft-backup.json';a.click();URL.revokeObjectURL(url);toast('JSON 백업을 내보냈어.');};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!data.config||!Array.isArray(data.players)||!Array.isArray(data.coaches))throw Error('invalid');state=data;save();renderAll();switchTab('setup');toast('JSON 데이터를 불러왔어.');}catch(err){toast('올바른 Arena Draft JSON 파일이 아니야.');}e.target.value='';};
+$('resetDataBtn').onclick=()=>{if(!confirm('모든 감독·참가자·이미지·드래프트 기록을 삭제할까? JSON 백업이 있다면 먼저 저장해 줘.'))return;state=defaultState();save();renderAll();switchTab('setup');toast('초기화했어.');};
+function init(){syncInputs();renderAll();if(state.draft.started&&state.draft.complete)switchTab('results');}
+init();
+})();
+</script>
+</body>
+</html>
